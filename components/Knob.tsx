@@ -18,7 +18,7 @@ export default function Knob({
   const knob = useRef(null);
   const currentStep = useRef(null);
   const { handlers: calculations } = useContext(RangeCalculationsContext);
-  const [wWidth, setWWidth] = useState(window.innerWidth);
+  const [wWidth, setWWidth] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {

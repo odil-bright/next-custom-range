@@ -1,3 +1,10 @@
+import Exercise2 from "../../components/Exercise2";
+import ExerciseWrapper from "../../components/ExerciseWrapper";
+
 export default function Page() {
-  return <h1>Exercise two</h1>;
+  return (
+    <ExerciseWrapper>
+      <Exercise2 />
+    </ExerciseWrapper>
+  );
 }

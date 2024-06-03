@@ -1,10 +1,10 @@
-import Range from "../../components/Range";
+import Exercise1 from "../../components/Exercise1";
+import ExerciseWrapper from "../../components/ExerciseWrapper";
 
 export default function Page() {
   return (
-    <>
-      <h1>Exercise one</h1>;
-      <Range />
-    </>
+    <ExerciseWrapper>
+      <Exercise1 />
+    </ExerciseWrapper>
   );
 }
