@@ -1,0 +1,65 @@
+.range {
+  display: flex;
+  align-items: center;
+  &__slider {
+    align-items: center;
+    display: flex;
+    height: 1rem;
+    width: 16rem;
+    margin: 0.5rem;
+    position: relative;
+    &__bar {
+      background-color: $c-black;
+      height: 0.25rem;
+      width: 100%;
+      border-radius: 3px;
+    }
+    &__knob {
+      height: 0.8rem;
+      width: 0.8rem;
+      border-radius: 50%;
+      background-color: $c-black;
+      cursor: move;
+      user-select: none;
+      touch-action: none;
+      position: absolute;
+      border: none;
+      left: 0;
+
+      &:hover {
+        height: 1rem;
+        width: 1rem;
+      }
+    }
+  }
+
+  &__label {
+    width: 4rem;
+    display: flex;
+    font-size: $fs-sm;
+    font-weight: 300;
+    &--min {
+      justify-content: flex-end;
+    }
+    button {
+      border: none;
+      padding: 0;
+      background-color: transparent;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    input {
+      width: 3rem;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    /* Firefox */
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+  }
+}
