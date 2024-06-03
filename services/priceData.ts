@@ -12,13 +12,3 @@ export const apiOperations: ApiOperations = {
     return result;
   },
 };
-
-export async function getPriceRange() {
-  const result = await apiGet(endpoints.range);
-  return result;
-}
-
-export async function getPriceSteps() {
-  const result = await apiGet(endpoints.steps);
-  return result;
-}
