@@ -7,10 +7,13 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "jsdom",
+    coverage: {
+      provider: "istanbul",
+    },
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./"),
+      "@": path.resolve(__dirname, "./src/"),
     },
   },
 });

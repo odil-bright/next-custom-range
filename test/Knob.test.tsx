@@ -1,7 +1,6 @@
 import Range, { RangeProps } from "@/components/Range";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
 
 describe("Knob component", () => {
   const props: RangeProps = {

@@ -5,7 +5,9 @@
     "start": "next start",
     "lint": "next lint",
     "build:scss": "sass styles/scss -o styles/css",
-    "test": "vitest"
+    "test": "vitest",
+    "test-ui": "vitest --ui",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "lodash": "^4.17.21",
@@ -20,6 +22,8 @@
     "@types/node": "20.13.0",
     "@types/react": "18.3.3",
     "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/coverage-istanbul": "^1.6.0",
+    "@vitest/ui": "^1.6.0",
     "jsdom": "^24.1.0",
     "sass": "^1.77.4",
     "typescript": "5.4.5",

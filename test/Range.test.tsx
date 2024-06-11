@@ -1,6 +1,5 @@
 import Range, { RangeProps } from "@/components/Range";
-import { render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { render, screen } from "@testing-library/react";
 
 describe("Range component", () => {
   const props: RangeProps = {
