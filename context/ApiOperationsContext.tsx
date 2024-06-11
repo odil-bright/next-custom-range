@@ -1,6 +1,4 @@
-"use client";
-
-import { ReactNode, createContext } from "react";
+import { PropsWithChildren, createContext } from "react";
 
 export interface ApiOperations {
   getPriceRange: () => Promise<any>;
@@ -18,10 +16,7 @@ const ApiOperationsContext = createContext<ApiOperationsContext | undefined>(
 const ApiOperationsProvider = ({
   children,
   operations,
-}: {
-  children: ReactNode;
-  operations: ApiOperations;
-}) => {
+}: PropsWithChildren<{ operations: ApiOperations }>) => {
   return (
     <ApiOperationsContext.Provider value={{ operations }}>
       {children}

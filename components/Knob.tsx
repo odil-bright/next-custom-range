@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { RangeChildrenProps, RangeProps } from "./Range";
+import { RangeChildrenProps, RangeProps } from "@/components/Range";
 import { debounce } from "lodash";
-import RangeCalculationsContext from "../context/RangeCalculationsContext";
+import RangeCalculationsContext from "@/context/RangeCalculationsContext";
 
 export default function Knob({
   isMin = false,

@@ -1,8 +1,8 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
-import Range from "../components/Range";
-import ApiOperationsContext from "../context/ApiOperationsContext";
+import Range from "@/components/Range";
+import ApiOperationsContext from "@/context/ApiOperationsContext";
 
 const Exercise2 = () => {
   const [data, setData] = useState([]);

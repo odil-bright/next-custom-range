@@ -1,5 +1,5 @@
 import { Range } from "@/models/entities";
-import { ReactNode, createContext, useState } from "react";
+import { PropsWithChildren, createContext } from "react";
 
 interface RangeCalculationsData {
   segments: number[];
@@ -26,7 +26,6 @@ export interface RangeCalculationsHandlers {
 }
 
 interface RangeCalculationsContext {
-  /* data: RangeCalculationsData; */
   handlers: RangeCalculationsHandlers;
 }
 
@@ -41,10 +40,7 @@ const initState: RangeCalculationsData = {
 const RangeCalculationsProvider = ({
   children,
   handlers,
-}: {
-  children: ReactNode;
-  handlers: RangeCalculationsHandlers;
-}) => {
+}: PropsWithChildren<{ handlers: RangeCalculationsHandlers }>) => {
   return (
     <RangeCalculationsContext.Provider value={{ handlers }}>
       {children}

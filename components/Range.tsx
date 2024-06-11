@@ -1,10 +1,10 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { InputLabel } from "./InputLabel";
-import Slider from "./Slider";
-import { RangeCalculationsProvider } from "../context/RangeCalculationsContext";
-import { handlers } from "../services/calculations";
+import { Dispatch, SetStateAction, useState } from "react";
+import { InputLabel } from "@/components/InputLabel";
+import Slider from "@/components/Slider";
+import { RangeCalculationsProvider } from "@/context/RangeCalculationsContext";
+import { handlers } from "@/services/calculations";
 
 export interface RangeProps {
   min?: number;

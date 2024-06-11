@@ -1,7 +1,7 @@
 "use client";
 
-import Range from "./Range";
-import ApiOperationsContext from "../context/ApiOperationsContext";
+import Range from "@/components/Range";
+import ApiOperationsContext from "@/context/ApiOperationsContext";
 import { useContext, useEffect, useState } from "react";
 
 const Exercise1 = () => {

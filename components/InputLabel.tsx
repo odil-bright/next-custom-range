@@ -1,7 +1,7 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { RangeChildrenProps, RangeProps, RangeState } from "./Range";
+import { useEffect, useState } from "react";
+import { RangeChildrenProps, RangeProps } from "@/components/Range";
 
 export function InputLabel({
   setState,
