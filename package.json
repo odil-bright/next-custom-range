@@ -3,8 +3,9 @@
     "dev": "next dev -p 8080 && sass --watch --update --style=expanded styles/scss:styles/css",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint", 
-    "build:scss": "sass styles/scss -o styles/css"
+    "lint": "next lint",
+    "build:scss": "sass styles/scss -o styles/css",
+    "test": "vitest"
   },
   "dependencies": {
     "lodash": "^4.17.21",
@@ -13,10 +14,15 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/lodash": "^4.17.4",
     "@types/node": "20.13.0",
     "@types/react": "18.3.3",
+    "@vitejs/plugin-react": "^4.3.1",
+    "jsdom": "^24.1.0",
     "sass": "^1.77.4",
-    "typescript": "5.4.5"
+    "typescript": "5.4.5",
+    "vitest": "^1.6.0"
   }
 }
