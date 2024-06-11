@@ -1,3 +1,5 @@
+import "@/assets/App.scss";
+
 export default function RootLayout({
   children,
 }: {
@@ -5,7 +7,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <header className="header">
+          <p>Prueba técnica - Odil Bright</p>
+        </header>
+        <main>{children}</main>
+      </body>
     </html>
   );
 }
