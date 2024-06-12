@@ -18,8 +18,9 @@ export default function Knob({
   const knob = useRef(null);
   const currentStep = useRef(null);
   const { handlers: calculations } = useContext(RangeCalculationsContext);
-  const [wWidth, setWWidth] = useState(null);
 
+  //TODO: make hook
+  const [wWidth, setWWidth] = useState(null);
   useEffect(() => {
     const handleResize = () => {
       setWWidth(window.innerWidth);
@@ -110,6 +111,7 @@ export default function Knob({
     onMove: useCallback(
       (currentXPos: number) => {
         if (!isDragging) return;
+
         if (!steps) {
           const value = utils.getValueFromXPos(currentXPos);
           if (utils.isInvalidValue(value)) return;
@@ -151,7 +153,7 @@ export default function Knob({
   }, [knob, state, wWidth]);
 
   useEffect(() => {
-    if (steps && slider) {
+    if (steps && slider?.current) {
       const { width } = slider.current.getBoundingClientRect();
       if (currentStep.current?.point) {
         const stepPoints = calculations.divideLineIntoEqualSegments(

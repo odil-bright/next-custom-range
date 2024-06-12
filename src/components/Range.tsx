@@ -24,7 +24,6 @@ export interface RangeChildrenProps {
   isMin?: boolean;
   toEdit?: boolean;
   slider?: React.MutableRefObject<any>;
-  dimensions?: { width: number; height: number };
 }
 
 export default function Range({ min, max, steps }: RangeProps) {

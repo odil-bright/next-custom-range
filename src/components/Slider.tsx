@@ -10,7 +10,6 @@ export default function Slider({
   max,
   state,
   setState,
-  dimensions,
 }: RangeProps & RangeChildrenProps) {
   const sliderRef = useRef(null);
   return (
@@ -25,7 +24,6 @@ export default function Slider({
         setState={setState}
         isMin={true}
         steps={steps}
-        dimensions={dimensions}
       />
       <Knob
         slider={sliderRef}
@@ -35,7 +33,6 @@ export default function Slider({
         min={min}
         setState={setState}
         steps={steps}
-        dimensions={dimensions}
       />
     </div>
   );
