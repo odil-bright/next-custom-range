@@ -32,6 +32,18 @@ export default function Knob({
         return value > max || value < state.min;
       }
     },
+    isCloseToInitialPoint: (startPoint, endPoint, currentPos) => {
+      const { width } = knob.current?.getBoundingClientRect();
+      const offset = width / 2;
+      return (
+        (!isMin &&
+          currentPos - endPoint < offset / 2 &&
+          currentPos - endPoint > 0) ||
+        (isMin &&
+          startPoint - currentPos < offset &&
+          startPoint - currentPos > 0)
+      );
+    },
   };
 
   const utils = {
@@ -46,13 +58,20 @@ export default function Knob({
     ),
     getValueFromXPos: (currentPos: number) => {
       const sliderBoundingClientRect = slider.current?.getBoundingClientRect();
-      const currentRangeMin = sliderBoundingClientRect.left;
-      const currentRangeMax = sliderBoundingClientRect.right;
-      const value = calculations.mapRangeValue(
-        currentPos,
-        { min: currentRangeMin, max: currentRangeMax },
-        { min, max }
-      );
+      const rangeMin = sliderBoundingClientRect.left;
+      const rangeMax = sliderBoundingClientRect.right;
+      let value: number;
+
+      if (knobState.isCloseToInitialPoint(rangeMin, rangeMax, currentPos)) {
+        value = isMin ? min : max;
+      } else {
+        value = calculations.mapRangeValue(
+          currentPos,
+          { min: rangeMin, max: rangeMax },
+          { min, max }
+        );
+      }
+
       return Math.round(value);
     },
     getXPosFromValue: (value = isMin ? state.min : state.max) => {
