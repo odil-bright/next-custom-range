@@ -18,6 +18,7 @@ export const handlers: RangeCalculationsHandlers = {
     return rangeValue;
   },
   divideLineIntoEqualSegments: (numSegments: number, lineLength: number) => {
+    if (!lineLength) return;
     const segmentLength = lineLength / numSegments;
     const initPoints = [0, lineLength];
     const newPoints = [0];
@@ -38,12 +39,7 @@ export const handlers: RangeCalculationsHandlers = {
     }
     return newPoints;
   },
-  getClosestStep: (point: number, lineLength: number, numSteps: number) => {
-    const segmentPoints = handlers.divideLineIntoEqualSegments(
-      numSteps,
-      lineLength
-    );
-
+  getClosestStep: (point: number, segmentPoints: number[]) => {
     const closestPointIndex = segmentPoints.findIndex((p, index, arr) => {
       const distance = getDistance(point, p);
       const nextDistance =

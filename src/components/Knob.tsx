@@ -4,6 +4,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { RangeChildrenProps, RangeProps } from "@/components/Range";
 import { debounce } from "lodash";
 import RangeCalculationsContext from "@/context/RangeCalculationsContext";
+import useWindowResize from "@/hooks/useWindowResize";
 
 export default function Knob({
   isMin = false,
@@ -18,18 +19,21 @@ export default function Knob({
   const knob = useRef(null);
   const currentStep = useRef(null);
   const { handlers: calculations } = useContext(RangeCalculationsContext);
+  const wWidth = useWindowResize();
+  const [stepPoints, setStepPoints] = useState([]);
 
-  //TODO: make hook
-  const [wWidth, setWWidth] = useState(null);
-  useEffect(() => {
-    const handleResize = () => {
-      setWWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const knobState = {
+    isMaxStep: currentStep.current?.index === steps?.length - 1,
+    stepChanged: (stepVal: number) =>
+      stepVal !== (isMin ? state.min : state.max),
+    isInvalidValue: (value: number) => {
+      if (isMin) {
+        return value < min || value > state.max;
+      } else {
+        return value > max || value < state.min;
+      }
+    },
+  };
 
   const utils = {
     setValue: useCallback(
@@ -54,14 +58,13 @@ export default function Knob({
     },
     getXPosFromValue: (value = isMin ? state.min : state.max) => {
       const sliderBoundingClientRect = slider.current?.getBoundingClientRect();
-      const currentRangeMin = 0;
       const currentRangeMax =
         sliderBoundingClientRect.width -
         knob.current.getBoundingClientRect().width;
       const xPos = calculations.mapRangeValue(
         value,
         { min, max },
-        { min: currentRangeMin, max: currentRangeMax }
+        { min: 0, max: currentRangeMax }
       );
       return xPos;
     },
@@ -80,27 +83,16 @@ export default function Knob({
         return xPos;
       }
     },
-    getStep(xPos: number) {
+    // get current step from knob position
+    getStep: (xPos: number) => {
       const knobBoundingClientRect = knob.current.getBoundingClientRect();
-      const sliderBoundingClientRect = slider.current.getBoundingClientRect();
-      const step = calculations.getClosestStep(
-        xPos,
-        sliderBoundingClientRect.width,
-        steps.length - 1
-      );
-      if (!isMin && step.index === steps.length - 1) {
+      const step = calculations.getClosestStep(xPos, stepPoints);
+      if (step.index === steps.length - 1) {
         step.point -= knobBoundingClientRect.width / 2;
       }
       return step;
     },
-    isInvalidValue: (value: number) => {
-      if (isMin) {
-        return value < min || value > state.max;
-      } else {
-        return value > max || value < state.min;
-      }
-    },
-    setStepPoint(point: number) {
+    setStepPoint: (point: number) => {
       if (isNaN(point)) return;
       knob.current.style.transition = "left 0.05s";
       knob.current.style.left = `${point}px`;
@@ -114,24 +106,24 @@ export default function Knob({
 
         if (!steps) {
           const value = utils.getValueFromXPos(currentXPos);
-          if (utils.isInvalidValue(value)) return;
+          if (knobState.isInvalidValue(value)) return;
           knob.current.style.left = utils.getXPos(currentXPos) + "px";
           utils.setValue(value);
         } else {
           const step = utils.getStep(Number(utils.getXPos(currentXPos)));
           const stepVal = steps[step.index];
-          if (utils.isInvalidValue(stepVal)) return;
+          if (knobState.isInvalidValue(stepVal)) return;
 
           knob.current.style.left = `${utils.getXPos(currentXPos)}px`;
           currentStep.current = step;
 
-          if (stepVal !== (isMin ? state.min : state.max)) {
+          if (knobState.stepChanged(stepVal)) {
             utils.setValue(stepVal);
             utils.setStepPoint(step.point);
           }
         }
       },
-      [isDragging, isMin, state.min, state.max, steps, utils.setValue]
+      [isDragging, steps, knobState, knob, currentStep, stepPoints]
     ),
     onStart: () => {
       knob.current.style.zIndex = 1;
@@ -155,18 +147,25 @@ export default function Knob({
   useEffect(() => {
     if (steps && slider?.current) {
       const { width } = slider.current.getBoundingClientRect();
-      if (currentStep.current?.point) {
-        const stepPoints = calculations.divideLineIntoEqualSegments(
-          steps.length - 1,
-          width
-        );
+      if (currentStep.current?.index) {
         const currentStepPoint = stepPoints[currentStep.current.index];
-        knob.current.style.left = `${currentStepPoint}px`;
+        knob.current.style.left = `${utils.getStep(currentStepPoint).point}px`;
       } else {
         knob.current.style.left = `${utils.getStep(isMin ? 0 : width).point}px`;
       }
     }
-  }, [wWidth]);
+  }, [stepPoints, slider.current]);
+
+  useEffect(() => {
+    if (steps && slider?.current) {
+      const { width } = slider.current.getBoundingClientRect();
+      const segments = calculations.divideLineIntoEqualSegments(
+        steps.length - 1,
+        width
+      );
+      if (segments?.length > 0) setStepPoints(segments);
+    }
+  }, [wWidth, slider.current]);
 
   return (
     <button

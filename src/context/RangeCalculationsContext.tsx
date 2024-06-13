@@ -17,8 +17,7 @@ export interface RangeCalculationsHandlers {
   ) => number[];
   getClosestStep: (
     point: number,
-    lineLength: number,
-    numSteps: number
+    segmentPoints: number[]
   ) => {
     point: number;
     index: number;

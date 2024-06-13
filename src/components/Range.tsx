@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { InputLabel } from "@/components/InputLabel";
 import Slider from "@/components/Slider";
 import { RangeCalculationsProvider } from "@/context/RangeCalculationsContext";
