@@ -147,12 +147,20 @@ export default function Knob({
     },
   };
 
+  // ## STEPS
+  // Reset step points on window width change
   useEffect(() => {
-    if (!isDragging && !steps) {
-      knob.current.style.left = `${utils.getXPosFromValue()}px`;
+    if (steps && slider?.current) {
+      const { width } = slider.current.getBoundingClientRect();
+      const segments = calculations.divideLineIntoEqualSegments(
+        steps.length - 1,
+        width
+      );
+      if (segments?.length > 0) setStepPoints(segments);
     }
-  }, [knob, state, wWidth]);
+  }, [wWidth, slider.current]);
 
+  // Update knob position on step points change
   useEffect(() => {
     if (steps && slider?.current) {
       if (currentStep.current?.index) {
@@ -165,16 +173,13 @@ export default function Knob({
     }
   }, [stepPoints, slider.current]);
 
+  // ## LINEAR
+  // Update Knob position on window wWidth/state/ change
   useEffect(() => {
-    if (steps && slider?.current) {
-      const { width } = slider.current.getBoundingClientRect();
-      const segments = calculations.divideLineIntoEqualSegments(
-        steps.length - 1,
-        width
-      );
-      if (segments?.length > 0) setStepPoints(segments);
+    if (!isDragging && !steps) {
+      knob.current.style.left = `${utils.getXPosFromValue()}px`;
     }
-  }, [wWidth, slider.current]);
+  }, [wWidth, state]);
 
   return (
     <button
