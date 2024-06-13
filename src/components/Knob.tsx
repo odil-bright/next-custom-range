@@ -23,7 +23,7 @@ export default function Knob({
   const [stepPoints, setStepPoints] = useState([]);
 
   const knobState = {
-    stepChanged: (stepVal: number) =>
+    hasChangedStep: (stepVal: number) =>
       stepVal !== (isMin ? state.min : state.max),
     isInvalidValue: (value: number) => {
       if (isMin) {
@@ -32,17 +32,15 @@ export default function Knob({
         return value > max || value < state.min;
       }
     },
-    isCloseToInitialPoint: (startPoint, endPoint, currentPos) => {
+    isCloseToStartPoint: (startPoint: number, currentPos: number) => {
       const { width } = knob.current?.getBoundingClientRect();
       const offset = width / 2;
-      return (
-        (!isMin &&
-          currentPos - endPoint < offset / 2 &&
-          currentPos - endPoint > 0) ||
-        (isMin &&
-          startPoint - currentPos < offset &&
-          startPoint - currentPos > 0)
-      );
+      return startPoint - currentPos < offset && startPoint - currentPos > 0;
+    },
+    isCloseToEndPoint: (endPoint: number, currentPos: number) => {
+      const { width } = knob.current?.getBoundingClientRect();
+      const offset = width / 2;
+      return currentPos - endPoint < offset / 2 && currentPos - endPoint > 0;
     },
   };
 
@@ -62,14 +60,19 @@ export default function Knob({
       const rangeMax = sliderBoundingClientRect.right;
       let value: number;
 
-      if (knobState.isCloseToInitialPoint(rangeMin, rangeMax, currentPos)) {
-        value = isMin ? min : max;
-      } else {
-        value = calculations.mapRangeValue(
-          currentPos,
-          { min: rangeMin, max: rangeMax },
-          { min, max }
-        );
+      switch (true) {
+        case knobState.isCloseToEndPoint(rangeMax, currentPos):
+          value = max;
+          break;
+        case knobState.isCloseToStartPoint(rangeMin, currentPos):
+          value = min;
+          break;
+        default:
+          value = calculations.mapRangeValue(
+            currentPos,
+            { min: rangeMin, max: rangeMax },
+            { min, max }
+          );
       }
 
       return Math.round(value);
@@ -94,7 +97,6 @@ export default function Knob({
         return xPos;
       }
     },
-    // get current step from knob position
     getStep: (xPos: number) => {
       const step = calculations.getClosestStep(xPos, stepPoints);
       return step;
@@ -124,7 +126,7 @@ export default function Knob({
           knob.current.style.left = `${utils.getXPos(currentXPos)}px`;
           currentStep.current = step;
 
-          if (knobState.stepChanged(stepVal)) {
+          if (knobState.hasChangedStep(stepVal)) {
             utils.setValue(stepVal);
             utils.setStepPoint(step.point);
           }
