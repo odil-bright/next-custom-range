@@ -1,11 +1,5 @@
 import Range, { RangeProps } from "@/components/Range";
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import "@/assets/App.scss";
 
 vi.mock("lodash", () => ({

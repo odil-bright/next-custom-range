@@ -9,6 +9,8 @@ export default defineConfig({
     environment: "jsdom",
     coverage: {
       provider: "istanbul",
+      include: ["**/src/**"],
+      exclude: ["**/src/models"],
     },
   },
   resolve: {

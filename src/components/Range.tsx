@@ -31,7 +31,7 @@ export default function Range({ min, max, steps }: RangeProps) {
 
   return (
     <RangeCalculationsProvider handlers={handlers}>
-      <div className="range">
+      <div className="range" data-testid={"range"}>
         <InputLabel
           setState={setState}
           state={state}
