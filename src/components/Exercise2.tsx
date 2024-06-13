@@ -10,20 +10,23 @@ const Exercise2 = () => {
   const { operations } = useContext(ApiOperationsContext);
 
   useEffect(() => {
-    operations.getPriceSteps().then((result) => {
-      if (result && result.steps) {
-        setData(result.steps);
-      } else {
-        throw new Error(result.statusText);
-      }
-    });
-  }, []);
+    operations
+      .getPriceSteps()
+      .then((result) => {
+        if (result && result.steps) {
+          setData(result.steps);
+        }
+      })
+      .catch((e: Error) => {
+        throw e;
+      });
+  }, [operations]);
 
   return (
     <>
       <h1>Steps Range</h1>
-      {data.length > 0 && (
-        <Range min={data[0]} max={data?.[data.length - 1]} steps={data} />
+      {data?.length > 0 && (
+        <Range min={data[0]} max={data[data.length - 1]} steps={data} />
       )}
     </>
   );

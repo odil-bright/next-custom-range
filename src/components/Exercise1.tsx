@@ -16,7 +16,7 @@ const Exercise1 = () => {
         throw new Error(result.statusText);
       }
     });
-  }, []);
+  }, [operations]);
 
   return (
     <>
