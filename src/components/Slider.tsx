@@ -13,8 +13,13 @@ export default function Slider({
 }: RangeProps & RangeChildrenProps) {
   const sliderRef = useRef(null);
   return (
-    <div className="range__slider" ref={sliderRef} role="slider">
-      <div className="range__slider__bar" data-testid={"range-bar"} />
+    <div
+      className="range__slider"
+      ref={sliderRef}
+      role="slider"
+      data-testid={"slider"}
+    >
+      <div className="range__slider__bar" />
       <Knob
         slider={sliderRef}
         aria-label="range button min"
