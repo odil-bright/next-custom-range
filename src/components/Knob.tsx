@@ -23,7 +23,6 @@ export default function Knob({
   const [stepPoints, setStepPoints] = useState([]);
 
   const knobState = {
-    isMaxStep: currentStep.current?.index === steps?.length - 1,
     stepChanged: (stepVal: number) =>
       stepVal !== (isMin ? state.min : state.max),
     isInvalidValue: (value: number) => {
@@ -58,9 +57,7 @@ export default function Knob({
     },
     getXPosFromValue: (value = isMin ? state.min : state.max) => {
       const sliderBoundingClientRect = slider.current?.getBoundingClientRect();
-      const currentRangeMax =
-        sliderBoundingClientRect.width -
-        knob.current.getBoundingClientRect().width;
+      const currentRangeMax = sliderBoundingClientRect.width;
       const xPos = calculations.mapRangeValue(
         value,
         { min, max },
@@ -70,26 +67,17 @@ export default function Knob({
     },
     getXPos: (pageX: number): number | void => {
       const sliderBoundingClientRect = slider.current?.getBoundingClientRect();
-      const knobBoundingClientRect = knob.current.getBoundingClientRect();
-      const xPosMin = pageX - knobBoundingClientRect.width / 2;
       if (
-        sliderBoundingClientRect.left <= xPosMin &&
+        sliderBoundingClientRect.left <= pageX &&
         sliderBoundingClientRect.right >= pageX
       ) {
-        const xPos =
-          pageX -
-          sliderBoundingClientRect.left -
-          knobBoundingClientRect.width / 2;
+        const xPos = pageX - sliderBoundingClientRect.left;
         return xPos;
       }
     },
     // get current step from knob position
     getStep: (xPos: number) => {
-      const knobBoundingClientRect = knob.current.getBoundingClientRect();
       const step = calculations.getClosestStep(xPos, stepPoints);
-      if (step.index === steps.length - 1) {
-        step.point -= knobBoundingClientRect.width / 2;
-      }
       return step;
     },
     setStepPoint: (point: number) => {
@@ -146,11 +134,11 @@ export default function Knob({
 
   useEffect(() => {
     if (steps && slider?.current) {
-      const { width } = slider.current.getBoundingClientRect();
       if (currentStep.current?.index) {
         const currentStepPoint = stepPoints[currentStep.current.index];
-        knob.current.style.left = `${utils.getStep(currentStepPoint).point}px`;
+        knob.current.style.left = `${currentStepPoint}px`;
       } else {
+        const { width } = slider.current.getBoundingClientRect();
         knob.current.style.left = `${utils.getStep(isMin ? 0 : width).point}px`;
       }
     }
