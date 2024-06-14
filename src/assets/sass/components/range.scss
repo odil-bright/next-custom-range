@@ -27,6 +27,12 @@
       left: 0;
       transform: translateX(-50%);
 
+      &--same-value {
+        transform: translateX(-25%);
+        &.range__slider__knob--min {
+          transform: translateX(-75%);
+        }
+      }
       &:hover {
         height: 1rem;
         width: 1rem;

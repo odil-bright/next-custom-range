@@ -23,7 +23,7 @@ export interface RangeChildrenProps {
   state: RangeState;
   isMin?: boolean;
   toEdit?: boolean;
-  slider?: React.MutableRefObject<any>;
+  slider?: React.MutableRefObject<HTMLDivElement>;
 }
 
 export default function Range({ min, max, steps }: RangeProps) {

@@ -17,7 +17,7 @@ export default function Knob({
 }: RangeProps & RangeChildrenProps) {
   const [isDragging, setIsDragging] = useState(false);
   const knob = useRef(null);
-  const currentStep = useRef(null);
+  const currentStep = useRef<{ index: number; point: number }>(null);
   const { handlers: calculations } = useContext(RangeCalculationsContext);
   const wWidth = useWindowResize();
   const [stepPoints, setStepPoints] = useState([]);
@@ -183,7 +183,9 @@ export default function Knob({
 
   return (
     <button
-      className="range__slider__knob"
+      className={`range__slider__knob ${
+        state.max === state.min ? "range__slider__knob--same-value" : ""
+      } ${isMin ? "range__slider__knob--min" : ""}`}
       aria-label={`range button ${isMin ? "min" : "max"}`}
       ref={knob}
       onMouseMove={(ev) => handlers.onMove(ev.pageX)}
