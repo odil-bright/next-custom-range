@@ -1,10 +1,13 @@
-import Exercise2 from "../../components/Exercise2";
-import ExerciseWrapper from "../../components/ExerciseWrapper";
+import { Suspense } from "react";
+import Exercise2 from "@/components/Exercise2";
 
-export default function Page() {
+export default async function Page() {
   return (
-    <ExerciseWrapper>
-      <Exercise2 />
-    </ExerciseWrapper>
+    <>
+      <h1>Steps Range</h1>
+      <Suspense fallback={<>Loading...</>}>
+        <Exercise2 />
+      </Suspense>
+    </>
   );
 }

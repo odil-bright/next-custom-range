@@ -193,7 +193,9 @@ export default function Knob({
       onMouseUp={handlers.onLeave}
       onMouseLeave={handlers.onLeave}
       onTouchStart={handlers.onStart}
-      onTouchMove={(ev) => handlers.onMove(ev.touches[0].clientX)}
+      onTouchMove={(ev) => {
+        handlers.onMove(ev.touches[0].clientX);
+      }}
       onTouchEnd={handlers.onLeave}
       onTransitionEnd={() => {
         knob.current.style.transitionProperty = "none";

@@ -1,10 +1,13 @@
 import Exercise1 from "@/components/Exercise1";
-import ExerciseWrapper from "@/components/ExerciseWrapper";
+import { Suspense } from "react";
 
-export default function Page() {
+export default async function Page() {
   return (
-    <ExerciseWrapper>
-      <Exercise1 />
-    </ExerciseWrapper>
+    <>
+      <h1>Linear Range</h1>
+      <Suspense fallback={<>Loading...</>}>
+        <Exercise1 />
+      </Suspense>
+    </>
   );
 }

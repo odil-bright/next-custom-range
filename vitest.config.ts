@@ -12,6 +12,7 @@ export default defineConfig({
       include: ["**/src/**"],
       exclude: ["**/src/models"],
     },
+    setupFiles: "./setupTests.ts",
   },
   resolve: {
     alias: {

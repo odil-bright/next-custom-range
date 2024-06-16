@@ -1,29 +1,10 @@
-"use client";
-
 import Range from "@/components/Range";
-import ApiOperationsContext from "@/context/ApiOperationsContext";
-import { useContext, useEffect, useState } from "react";
+import { apiOperations } from "@/services/priceData";
 
-const Exercise1 = () => {
-  const [data, setData] = useState();
-  const { operations } = useContext(ApiOperationsContext);
+const Exercise1 = async () => {
+  const { range: data } = await apiOperations.getPriceRange();
 
-  useEffect(() => {
-    operations.getPriceRange().then((result) => {
-      if (result && result.range) {
-        setData(result.range);
-      } else {
-        throw new Error(result.statusText);
-      }
-    });
-  }, [operations]);
-
-  return (
-    <>
-      <h1>Linear Range</h1>
-      {data && <Range min={data[0]} max={data[1]} />}
-    </>
-  );
+  return <Range min={data[0]} max={data[1]} />;
 };
 
 export default Exercise1;

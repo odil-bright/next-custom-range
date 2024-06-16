@@ -1,8 +1,8 @@
 import { PropsWithChildren, createContext } from "react";
 
 export interface ApiOperations {
-  getPriceRange: () => Promise<any>;
-  getPriceSteps: () => Promise<any>;
+  getPriceRange: (options?: RequestInit) => Promise<any>;
+  getPriceSteps: (options?: RequestInit) => Promise<any>;
 }
 
 interface ApiOperationsContext {
